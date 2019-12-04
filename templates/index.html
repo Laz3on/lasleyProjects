@@ -41,9 +41,14 @@
         <input type="text" name="taskName" id="taskName" placeholder="Task Name">
         <input type="text" name="taskDetails" id="taskDetails" placeholder="Task Details">
         <input type="text" name="owner" id="owner" placeholder="Owner">
-        <input type="text" name="priority" id="priority" placeholder="Priority">
-        <input type="text" name="startDate" id="startDate" placeholder="Task Start Date">
-        <input type="text" name="estimatedCompletionDate" id="estimatedCompletionDate"
+
+        <select name="priority" id="priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+        <input type="date" name="startDate" id="startDate" placeholder="Task Start Date">
+        <input type="date" name="estimatedCompletionDate" id="estimatedCompletionDate"
             placeholder="Est. Completion Date">
         <input type="submit" value="Add Task">
 
