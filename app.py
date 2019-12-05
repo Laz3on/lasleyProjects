@@ -4,32 +4,9 @@ from datetime import datetime
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///actionsList.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///projects.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///actionsList.db'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
-
-
-# class Todo(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     content = db.Column(db.String(200), nullable=False)
-#     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-
-#     def __repr__(self):
-#         return '<Task %r>' % self.id
-
-
-# class ActionsList(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     taskName = db.Column(db.String(200), nullable=True)
-#     taskDetails = db.Column(db.String(200), nullable=True)
-#     owner = db.Column(db.String(200), nullable=True)
-#     priority = db.Column(db.String(200), nullable=True)
-#     startDate = db.Column(db.String(200), nullable=True)
-#     estimatedCompletionDate = db.Column(db.String(200), nullable=True)
-#     dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
-
-#     def __repr__(self):
-#         return '<Task %r>' % self.id
 
 
 class ActionsList(db.Model):
@@ -46,8 +23,8 @@ class ActionsList(db.Model):
         return '<Task %r>' % self.id
 
 
-@app.route('/', methods=['POST', 'GET'])
-def index():
+@app.route('/actions', methods=['POST', 'GET'])
+def actions():
     if request.method == 'POST':
         taskName = request.form['taskName']
         taskDetails = request.form['taskDetails']
@@ -62,7 +39,7 @@ def index():
         try:
             db.session.add(new_task)
             db.session.commit()
-            return redirect('/')
+            return redirect('/actions')
 
         except:
 
@@ -70,22 +47,22 @@ def index():
 
     else:
         tasks = ActionsList.query.order_by(ActionsList.dateCreated).all()
-        return render_template("index.html", tasks=tasks)
+        return render_template("/actions.html", tasks=tasks)
 
 
-@app.route('/delete/<int:id>')
+@app.route('/actions/delete/<int:id>')
 def delete(id):
     task_to_delete = ActionsList.query.get_or_404(id)
 
     try:
         db.session.delete(task_to_delete)
         db.session.commit()
-        return redirect('/')
+        return redirect('/actions')
     except:
         return 'There was a problem deleting that task'
 
 
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
+@app.route('/actions/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
     task_to_update = ActionsList.query.get_or_404(id)
     if request.method == 'POST':
@@ -98,7 +75,7 @@ def update(id):
 
         try:
             db.session.commit()
-            return redirect('/')
+            return redirect('/actions')
         except:
             return 'There was a problem updating your task'
 
@@ -106,9 +83,9 @@ def update(id):
         return render_template('update.html', task_to_update=task_to_update)
 
 
-@app.route('/actions')
-def actions():
-    return render_template('actions.html')
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
