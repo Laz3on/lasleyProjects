@@ -2,10 +2,10 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///actionsList.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///actionsList.db'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+
 db = SQLAlchemy(app)
 
 
@@ -84,8 +84,19 @@ def update(id):
 
 
 @app.route('/')
+@app.route('/home')
 def index():
     return render_template('index.html')
+
+
+@app.route('/projects')
+def projects():
+    return render_template('projects.html')
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 
 if __name__ == "__main__":
