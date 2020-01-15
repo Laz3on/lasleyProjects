@@ -22,6 +22,7 @@ class ActionsList(db.Model):
     def __repr__(self):
         return '<Task %r>' % self.id
 
+
 class ProjectsList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     projectName = db.Column(db.String(200), nullable=False)
@@ -113,7 +114,7 @@ def projects():
         estimatedCompletionDate = request.form['estimatedCompletionDate']
         # dateCreated = request.form['dateCreated']
         new_project = ProjectsList(projectName=projectName, projectDetails=projectDetails, owner=owner, priority=priority,
-                               startDate=startDate, estimatedCompletionDate=estimatedCompletionDate)
+                                   startDate=startDate, estimatedCompletionDate=estimatedCompletionDate)
 
         try:
             db.session.add(new_project)
@@ -160,6 +161,7 @@ def project_update(id):
 
     else:
         return render_template('projectUpdate.html', project_to_update=project_to_update)
+
 
 @app.route('/about')
 def about():
